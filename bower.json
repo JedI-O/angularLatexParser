@@ -5,6 +5,7 @@
   "authors": [
     "juwit-team"
   ],
+  "main": "./src/js/parser.js",
   "description": "A very naive HTML to Latex Parser",
   "keywords": [
     "html",
