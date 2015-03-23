@@ -1,0 +1,23 @@
+{
+  "name": "angularLatexParser",
+  "version": "0.0.0",
+  "homepage": "https://github.com/juwit-team/angularLatexParser",
+  "authors": [
+    "juwit-team"
+  ],
+  "description": "A very naive HTML to Latex Parser",
+  "keywords": [
+    "html",
+    "latex",
+    "parser"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
