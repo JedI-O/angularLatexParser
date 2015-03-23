@@ -20,5 +20,8 @@
     "bower_components",
     "test",
     "tests"
-  ]
+  ],
+  "dependencies": {
+    "textAngular": "juwit-team/textAngular#~1.3.9"
+  }
 }
