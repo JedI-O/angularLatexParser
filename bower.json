@@ -22,6 +22,6 @@
     "tests"
   ],
   "dependencies": {
-    "textAngular": "juwit-team/textAngular#~1.3.9"
+    "textAngular": "juwit-team/textAngular#textAngularReview"
   }
 }
