@@ -1,0 +1,27 @@
+{
+  "name": "angular-latex-parser",
+  "version": "0.2.0",
+  "description": "A simple parser that gets .html and produces .tex.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/juwit-team/angularLatexParser.git"
+  },
+  "keywords": [
+    "latex",
+    "parser",
+    "html"
+  ],
+  "author": "juwit-team",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/juwit-team/angularLatexParser/issues"
+  },
+  "homepage": "https://github.com/juwit-team/angularLatexParser",
+  "dependencies": {
+    "htmlparser2": "^3.8.2"
+  }
+}
