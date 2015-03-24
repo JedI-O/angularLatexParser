@@ -1,5 +1,7 @@
-# html2tex.js
-A simple client-side parser that gets .html and produces .tex.
-Please notice that only the output html of our own sanitizer (a fork of the
-angularjs sanitizer) is parsed correctly.
-There is no support for real world HTML5!
+# JS html to latex parser
+A simple parser that gets .html and produces .tex.
+
+It is build for the juwit-editor and is not save to use in the real world
+
+## License
+MIT
