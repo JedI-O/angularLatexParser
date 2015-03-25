@@ -22,6 +22,9 @@
   },
   "homepage": "https://github.com/juwit-team/angularLatexParser",
   "dependencies": {
-    "htmlparser2": "^3.8.2"
+    "domutils": "^1.5.1",
+    "dot": "^1.0.3",
+    "htmlparser2": "^3.8.2",
+    "sanitize-html": "^1.6.1"
   }
 }
