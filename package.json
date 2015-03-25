@@ -25,6 +25,7 @@
     "domutils": "^1.5.1",
     "dot": "^1.0.3",
     "htmlparser2": "^3.8.2",
+    "lodash": "^3.5.0",
     "sanitize-html": "^1.6.1"
   }
 }
