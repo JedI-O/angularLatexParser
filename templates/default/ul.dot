@@ -1,3 +1,3 @@
 \begin{itemize} 
-  {{= content }}
+  {{= it.content }}
 \end{itemize}
