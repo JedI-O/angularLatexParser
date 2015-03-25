@@ -11,12 +11,6 @@ angular.module('angularLatexParser', []).service('latexParser', function(){
    * @return {String} A LaTeX command.
    */    
   this.replaceHtml2Tex = function (match, fullTag, toTex, fromHtml) {
-    var beginAlign = {
-      // CSS-style         : latex command
-      'text-align: center;': '\\centering{',
-      'text-align: left;'  : '\\raggedright{',
-      'text-align: right;' : '\\raggedleft{',
-    };
     var endAlign = '}';
 
     var htmlTag2Latex = {
@@ -75,15 +69,22 @@ angular.module('angularLatexParser', []).service('latexParser', function(){
     if (fullTag) {
       var result = '';
 
-      var splits = /([/a-zA-Z0-9]+)(?: style="([^"]*)")?/.exec (fullTag);
-      if (splits == null) {
+      var splits = /([/a-zA-Z0-9]+)(?:\s(.*))?/.exec (fullTag);
+
+      if (splits === null) {
         console.log ('HTML tag "' + fullTag + '" behaves unexpected.');
         return '';
       }
-
       var tag = splits[1];
-      var stylePart = splits[2];
-      if (htmlTag2Latex[tag] == null) {
+      var stylePartExec = /style="([^"]*)"/.exec (splits[2]);
+      var stylePart;
+      if (stylePartExec === null) {
+        stylePart = '';
+      } else {
+        stylePart = stylePartExec[1];
+      }
+
+      if (htmlTag2Latex[tag] === undefined) {
         console.log ('HTML tag "' + tag + '" is not supported.');
         return '';
       }
@@ -95,31 +96,35 @@ angular.module('angularLatexParser', []).service('latexParser', function(){
       result += htmlTag2Latex[tag][1];
 
       if (htmlTag2Latex[tag][0] == 1) {
-        if (stylePart != null) {
-          result += beginAlign[stylePart];
+        if (       /text-align: center;/.test (stylePart)) {
+          result += '\\centering{';
+        } else if (/text-align: right;/ .test (stylePart)) {
+          result += '\\raggedleft{';
+        } else if (/text-align: left;/  .test (stylePart)) {
+          result += '\\raggedright{';
         } else {
-          // default behaviour
-          result += beginAlign['text-align: left;'];
+          result += '\\raggedright{';
         }
       }
       return result;
     } else if (toTex) {
       return latexEscape[toTex];
     } else if (fromHtml) {
-      if (escapedHtml[fromHtml] != null) {
+      var escapeCodeExec = /&#([0-9]*);/.exec (fromHtml);
+      if (escapedHtml[fromHtml] !== undefined) {
+        // special escape sequences
         return escapedHtml[fromHtml];
-      }
+      } else if (escapeCodeExec !== null) {
 
-      var escapeCode = fromHtml.substring(2,fromHtml.length-1);
-      var d = Number(escapeCode);
+        var d = escapeCodeExec[1];
 
-      // test if the character is one of 256 supported in T1
-      if ( (! Number.isNaN(d)) && ((d <= 0x20 && d < 0x7f) || d==0xa1 || d==0xa3 || d==0xa7 || d==0xa8 || d==0xab || d==0xad || d==0xaf || d==0xb4 || d==0xb8 || d==0xbb || ( 0xbf <= d && d <= 0xff && d!=0xd7 && d!=0xf7) || ( 0x102 <= d && d <= 0x107 ) || ( 0x10d <= d && d <= 0x10f ) || d==0x111 || ( 0x118 <= d && d <= 0x11b ) || d==0x11e || d==0x11f || ( 0x130 <= d && d <= 0x133 ) || d==0x139 || d==0x13a || d==0x13d || d==0x13e || ( 0x141 <= d && d <= 0x144 ) || ( 0x147 <= d && d <= 0x14b && d != 0x149 ) || ( 0x150 <= d && d <= 0x155 ) || ( 0x158 <= d && d <= 0x15b ) || ( 0x15e <= d && d <= 0x165 ) || ( 0x16e <= d && d <= 0x171 ) || ( 0x178 <= d && d <= 0x17e ) || d==0x237 || d==0x2d6 || d==0x2d7 || ( d==0x2d8 <= d && d <= 0x2dd ) || d==0x200b || d==0x2013 || d==0x2014 || ( 0x2018 <= d && d <= 0x201e && d != 0x201b ) || d==0x2039 || d==0x203a ) ) {
-        return String.fromCharCode(d);
-      } else {
-        console.log( 'Could not convert to latex, ' + fromHtml + ' is not supported in T1');
-        return '';
+        // test if the character is one of 256 supported in T1
+        if ( (d <= 0x20 && d < 0x7f) || d==0xa1 || d==0xa3 || d==0xa7 || d==0xa8 || d==0xab || d==0xad || d==0xaf || d==0xb4 || d==0xb8 || d==0xbb || ( 0xbf <= d && d <= 0xff && d!=0xd7 && d!=0xf7) || ( 0x102 <= d && d <= 0x107 ) || ( 0x10d <= d && d <= 0x10f ) || d==0x111 || ( 0x118 <= d && d <= 0x11b ) || d==0x11e || d==0x11f || ( 0x130 <= d && d <= 0x133 ) || d==0x139 || d==0x13a || d==0x13d || d==0x13e || ( 0x141 <= d && d <= 0x144 ) || ( 0x147 <= d && d <= 0x14b && d != 0x149 ) || ( 0x150 <= d && d <= 0x155 ) || ( 0x158 <= d && d <= 0x15b ) || ( 0x15e <= d && d <= 0x165 ) || ( 0x16e <= d && d <= 0x171 ) || ( 0x178 <= d && d <= 0x17e ) || d==0x237 || d==0x2d6 || d==0x2d7 || ( d==0x2d8 <= d && d <= 0x2dd ) || d==0x200b || d==0x2013 || d==0x2014 || ( 0x2018 <= d && d <= 0x201e && d != 0x201b ) || d==0x2039 || d==0x203a ) {
+          return String.fromCharCode(d);
+        }
       }
+      console.log( 'Could not convert to latex, ' + fromHtml + ' is not supported in T1');
+      return '';
     }
   };
   /**
