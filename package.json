@@ -1,5 +1,5 @@
 {
-  "name": "angular-latex-parser",
+  "name": "latex-parser",
   "version": "0.2.0",
   "description": "A simple parser that gets .html and produces .tex.",
   "main": "index.js",
@@ -25,7 +25,6 @@
     "domutils": "^1.5.1",
     "dot": "^1.0.3",
     "htmlparser2": "^3.8.2",
-    "lodash": "^3.5.0",
-    "sanitize-html": "^1.6.1"
+    "lodash": "^3.5.0"
   }
 }
