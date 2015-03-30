@@ -41,6 +41,11 @@ angular.module('angularLatexParser', []).service('latexParser', function(){
       'strike' : [0, '\\sout{'],
       '/strike': [0, '}'],
       'br/'    : [0, ' '],
+      'blockquote' :[0, '\\begin{quotation}'],
+      '/blockquote':[0, '\\end{quotation}'],
+      'a'      : [0, ''],  // see Hyperlink section 
+      '/a'     : [0, '}'],
+      // FIXME: color
       // FIXME
       'div'    : [0, ''],
       '/div'   : [0, ''],
@@ -67,8 +72,7 @@ angular.module('angularLatexParser', []).service('latexParser', function(){
       '}' : '\\}',
     };
     if (fullTag) {
-      var result = '';
-
+      // extract
       var splits = /([/a-zA-Z0-9]+)(?:\s(.*))?/.exec (fullTag);
 
       if (splits === null) {
@@ -83,12 +87,21 @@ angular.module('angularLatexParser', []).service('latexParser', function(){
       } else {
         stylePart = stylePartExec[1];
       }
+      var hrefURLExec = /href="([^"]*)"/.exec (splits[2]);
+      var hrefURL;
+      if (hrefURLExec === null) {
+        hrefURL = '';
+      } else {
+        hrefURL = hrefURLExec[1];
+      }
 
       if (htmlTag2Latex[tag] === undefined) {
         console.log ('HTML tag "' + tag + '" is not supported.');
         return '';
       }
 
+      // produce result
+      var result = '';
       if (htmlTag2Latex[tag][0] == 2) {
         result += endAlign;
       }
@@ -105,6 +118,10 @@ angular.module('angularLatexParser', []).service('latexParser', function(){
         } else {
           result += '\\raggedright{';
         }
+      }
+      if (tag === 'a') {
+        // Hyperlink
+        result += '\\href{' + hrefURL + '}{';
       }
       return result;
     } else if (toTex) {
