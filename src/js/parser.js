@@ -56,6 +56,9 @@ angular.module('angularLatexParser', []).service('latexParser', function(){
       '&amp;' : '\\&',
       '&lt;'  : '<',
       '&gt;'  : '>',
+      // both are the same:
+      '&nbsp;': '~',
+      '&#160;': '~',
     };
 
     // special characters in latex
