@@ -1,0 +1,3 @@
+\begin{enumerate} 
+  {{= it.content }}
+\end{enumerate}
