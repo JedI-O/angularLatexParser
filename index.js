@@ -1,5 +1,3 @@
-'use strict';
-
 var htmlparser = require('htmlparser2');
 var domToLatex = require('./lib/domToLatex');
 
