@@ -118,6 +118,8 @@ angular.module('angularLatexParser', []).service('latexParser', function(){
           result += '\\raggedleft{';
         } else if (/text-align: left;/  .test (stylePart)) {
           result += '\\raggedright{';
+        } else if (/text-align: justify;/.test(stylePart)) {
+          result += '{';
         } else {
           result += '\\raggedright{';
         }
